@@ -1,0 +1,342 @@
+\documentclass{beamer}
+\usetheme{Antibes}
+
+\title{Foundational ACTL2131 Concepts}
+\subtitle{An overview of basic probability and statistical theorems}
+\author{Tadhg Xu-Glassop}
+\institute{UNSW}
+\date{2024}
+
+\begin{document}
+
+\AtBeginSection[]{
+  \begin{frame}{Outline}
+  \small \tableofcontents[currentsection, hideothersubsections]
+  \end{frame} 
+}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+    \tableofcontents
+\end{frame}
+
+\section{Law of Total Probability}
+
+\subsection{Definition and Visualisation}
+
+\begin{frame}{Definition}
+    Consider a sequence of two events, $A$ and $B,$ where the probability of $A$ is dependent on $B$ and $B$ is independent of $A$ ($B$ may occur first for example).
+    \newline\newline
+    Denote each possible outcome of $B$ as $B_i, i \in \{ 1,2,\dots, n\}$ then, the Law of Total Probability (LOTP) states, for a discrete case\footnote{There are conditions to consider, particularly all $B_i$ must be mutually disjointed, but in essence, LOTP is usable if the scenario can be written as a tree diagram.},
+    $$
+    P(A) = \sum_{i=1}^{n} P(A\cap B_i) = \sum_{i=1}^n P(A | B_i) \cdot P(B_i).
+    $$
+\end{frame}
+
+\begin{frame}{Visualising LOTP with a Tree Diagram}
+    The Law looks far more complicated than it actually is. Consider the following tree diagram for an event $B$ followed by an event $A,$ whose probability of occurring is dependent on the outcome of $B,$
+    \begin{center}
+        \includegraphics[width = 0.17\textwidth]{tree_diagram.png}
+    \end{center}
+    If we seek the probability $P(A),$ which is the \textbf{total} probability of $A$ occurring, then it is simply the sum of each branch, that is,
+    $$
+    P(A) = P(A_1 | B)\cdot P(B) + P(A_2 | B^c) \cdot P(B^c).
+    $$
+    
+\end{frame}
+
+\subsection{Example}
+
+\begin{frame}{False Positive Example}
+    \textbf{Q.} Consider a test for a virus which has a 5\% chance to return a false positive (the test says you have the disease, when you actually don't). The test will return the correct result if the person has the disease. If it is estimated that 20\% of the population has the virus, what is the probability of a single test returning a positive result?
+\end{frame}
+
+\begin{frame}{False Positive Example (soln)}
+    \textbf{Ans.} (Using a tree diagram may be useful) Denote the event of someone having the virus as $V,$ and the event of a positive test $P.$ We seek $P(P).$ \\
+    By LOTP, we have,
+    \begin{align*}
+        P(P) &= P(P | V) P(V) + P(P | V^c) P(V^c) \\
+        &= 1 \cdot 0.2 + 0.05 \cdot 0.8 \\
+        & = 0.24.
+    \end{align*}
+\end{frame}
+
+\section{Bayes' Theorem}
+\subsection{Definition and Derivation}
+
+\begin{frame}{Definition}
+    Similar to LOTP, consider a sequence of events $B$ and $A,$ where $B$ is independent of $A$ but $A$ is dependent on $B.$ We can denote each different outcome of $B$ as $B_i, i \in \{1,2,\dots,n \}$ and a specific event of interest $B_j, j \subset i.$ 
+    \newline \newline
+    Then, Bayes' Theorem states\footnote{Like LOTP, similar conditions need to be met for Bayes' to be applicable, but generally we can use it if we can represent our situation as a tree diagram.},
+    $$
+    P(B_j|A) = \frac{P(A | B_j) \cdot P(B_j)}{\sum_{i} P(A | B_i) \cdot P(B_i)}
+    $$
+\end{frame}
+
+\begin{frame}{Derivation}
+    This law looks complicated, but the derivation should hopefully clarify what is actually going on - it is no more than a combination of conditional probabality and LOTP.
+    \newline\newline
+    From our scenario, we are intersted in the probability of a specific event $B_j|A.$ We begin with the definition of conditional probability,
+    \begin{align*}
+        P(B_j|A) &= \frac{P(B_j \cap A)}{P(A)} \\
+        &= \frac{P(A|B_j)\cdot P(B_j)}{P(A)} \\
+        &= \frac{P(A | B_j) \cdot P(B_j)}{\sum_{i} P(A | B_i) \cdot P(B_i)}.
+    \end{align*}
+\end{frame}
+
+\subsection{Example}
+
+\begin{frame}{False Positive Example (again!)}
+    \textbf{Q.} Let us return to the same scenario. As a reminder, a test has a 5\% chance to return a false positive, and it is estimated that 20\% of the population has the virus. Someone takes a test and the result is positive. What is the probability they actually have the disease?
+\end{frame}
+
+\begin{frame}{False Positive Example (again!) Solution}
+    \textbf{Ans.} Using the same denotations as before, we seek $P(V | P).$ By Bayes' Theorem, we have,
+    \begin{align*}
+        P(V|P) &= \frac{P(A | B_j) \cdot P(B_j)}{\sum_{i} P(A | B_i) \cdot P(B_i)} \\
+        &= \frac{1 \cdot 0.2}{1 \cdot 0.2 + 0.05 \cdot 0.8} \\
+        &= 0.834.
+    \end{align*}
+\end{frame}
+
+\section{Random Variables and Functions}
+
+\subsection{R.V. Basics}
+
+\begin{frame}{What is a Random Variable?}
+    \begin{itemize}
+        \item A Random Variable (R.V.) is a quantity, typically denoted by $X,$ whose value $x$ is the outcome of an experiment/event.
+        \begin{itemize}
+            \item It can be thought of that $X$ is the variable itself, and $x$ represents the possible values it can take.
+            \item$P(X=x)$ is the probability $X$ takes the value $x.$
+        \end{itemize}
+        \item For example, denote $X$ as the number rolled on a standard die. Then, $x$ represents the possible values of $X.$ With this in mind, we read $P(X=3)$ as the probability that we roll a 3.
+    \end{itemize}
+\end{frame}
+
+\subsection{R.V. Distributions}
+
+\begin{frame}{Discrete Distributions}
+    Consider a discrete case of $X.$ We define the Probability Mass Function (p.m.f.) of $X$ $p_X(x)$ as,
+    $$
+    p_X(x) = P(X=x).
+    $$
+    Further, we define the Cumulative Distribution Function (c.d.f.) $F_X(x)$ as,
+    $$
+    F_X(x) = P(X \le x).
+    $$
+    We have the relationship between the two,
+    $$
+    F_X(x) = \sum_{k=1}^x p_X(x_k),
+    $$
+    as the cdf is simply the probability of all events less than and equal to $x,$ so for a discrete case we can simply sum all lower cases.
+\end{frame}
+
+\begin{frame}{Continuous Distributions}
+    Now, consider a continuous case of $X.$ We define the c.d.f. of $X$ to be,
+    $$
+    F_X(x) = P(X \le x),
+    $$
+    and the pdf to be,
+    $$
+    f_X(x) = \frac{\partial}{\partial x} F_X(x).
+    $$
+    Note that this implies the crucial relationship,
+    $$
+    F_X(x) = \int_{-\infty }^{x} f_X(x_i) dx_i.
+    $$
+    This is intuitive, as recall that an integral is an infinitesimal sum, so this relationship is just an continuous extension of our discrete case.
+\end{frame}
+
+\begin{frame}{R.V.'s of Known Distributions}
+    \begin{itemize}
+        \item Oftentimes, random variables follow a specific, known distribution.
+        \begin{itemize}
+            \item For example, Binomial, Poisson, Normal and Exponential distributions are common ones you will encounter frequently.
+        \end{itemize}
+        \item For known distributions, the PDF/PMF, CDF, key moments and more can be found in your Orange Book. Using these results from your Orange Book can reduce many tedious calculations and proofs.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Properties of R.V. Functions}
+    Not every function can be a pdf / pmf / cdf! There are key properties that each of these must follow:
+    \begin{itemize}
+        \item $\begin{cases}
+            f_X(x) \ge 0 & \text{if } X \text{ is continuous,} \\
+            p_X(x) \ge 0 & \text{if } X \text{ is discrete.}
+        \end{cases}$
+        \item $p_X(x) \text{ is right continuous} \text{  if } X \text{ is discrete.}$
+        \item $\begin{cases}
+            \int_{-\infty}^{\infty} f_X(x) dx = 1 &\text{if } X \text{ is continuous,} \\
+            \sum_{x} p_X(x) = 1 & \text{if } X \text{ is discrete}.
+        \end{cases}$
+        \item $F(\infty) = 1$
+        \item $F(-\infty) = 0$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{R.V. Moments}
+    When working with R.V.'s, we use \textbf{moments} to get a better understanding of the nature of our R.V.. 
+    \newline \newline
+    We have non-central moments, where the $n$th non-central moment is defined as, $$E\left[ X^n \right],$$ 
+    and central moments, where the $n$th central moment is defined as $$E\left[ (X - E[X] )^n \right].$$    
+\end{frame}
+
+\begin{frame}{R.V. Moments (cont.)}
+    \begin{itemize}
+        \item Most commonly, we will be working with the first non-central moment $E[X]=\mu,$ which is the mean (expected value) of a R.V..
+        \item Another key moment is the second central moment $E[X^2]-E[X]^2 = \text{Var}[X] = \sigma^2,$ which is the variance of a R.V..
+        \begin{itemize}
+            \item The square root of variance gives the standard deviation, that is,
+            $$
+            \sigma = \sqrt{\text{Var}[X]}.
+            $$
+        \end{itemize}
+        \item Dividing $E\left[ (X-\mu)^n \right]$ by $\sigma^n$ gives the $n$th standardised moment.
+        \begin{itemize}
+            \item The 3rd standardised moment is skewness, and the 4th is kurtosis.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Properties of Mean and Variance}
+    Oftentimes, we will evoke the following properties for independent random variables $X, Y$ and constants $a,b \in \mathbb{R}$,
+    \begin{itemize}
+        \item $E[X+Y] = E[X] + E[Y]$
+        \item $E[XY] = E[X]\cdot E[Y]$
+        \item $E[aX+b] = aE[X] + b$
+        \item $\text{Var}[aX + b] = a^2\text{Var}[X]$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Finding Moments using the pmf / pdf}
+    We can find the $n$th non-central moment using the pmf of a discrete R.V.,
+    $$
+    E[X^n] = \sum_{\text{all }x} x^n p_X(x),
+    $$
+    or by using the pdf of a continuous R.V.,
+    $$
+    E[X^n] = \int_{-\infty}^{\infty} x^n f_X(x) dx.
+    $$
+    In fact, we can find the expected value of some function $g(X)$ with,
+    $$
+    E[g(X)] = \int_{-\infty}^{\infty} g(x) f_X(x) dx \hspace{0.3cm}\text{or}\hspace{0.3cm} \sum_{\text{all }x} g(x)p_X(x).
+    $$
+\end{frame}
+
+\subsection{Finding Moments with PDF Example}
+
+\begin{frame}{Moment of an R.V. Example}
+    \textbf{Q.} Consider the continuous random variable $X,$ which has the pdf,
+    $$
+    f_X(x) = e^{-x}, x\ge 0.
+    $$
+    Find the mean and variance of $X.$
+\end{frame}
+
+\begin{frame}{Moment of an R.V. Example (Soln.)}
+    \textbf{Soln.} The mean is the first non-central moment of $X,$ so we find it by using,
+    \begin{align*}
+        E[X] &= \int_{-\infty}^{\infty} x \cdot f_X(x) dx \\
+        &= \int_{0}^{\infty} x \cdot e^{-x} dx \\
+        &= \left. -x e^{-x}\right|_{0}^{\infty}  +\int_{0}^{\infty} e^{-x} dx \\
+        &= 1
+    \end{align*}
+    So the mean of $X$ is $\mu = 1.$
+\end{frame}
+
+\begin{frame}{Moment of an R.V. Example (Soln.) (cont.)}
+    To variance is the second central moment, which requires us to first find the second non-central moment,
+    \begin{align*}
+        E\left[X^2\right] &= \int_{-\infty}^{\infty} x^2 f_X(x) dx \\
+        &= \int_{0}^{\infty} x^2 e^{-x} dx \\
+        &= \left. -2xe^{-x} \right|_{0}^{\infty} + 2 \int_{0}^{\infty} x e^{-x} dx \\
+        &= 2 E[X] \\
+        &= 2
+    \end{align*}
+    So, to get the variance,
+    $$
+    \sigma^2 = E[X^2] - E[X]^2 = 2 - 1^2 = 1.
+    $$
+\end{frame}
+
+\section{Moment Generating Functions}
+
+\subsection{Definition and Application of MGF's}
+
+\begin{frame}{Moment Generating Functions}
+    Define the Moment Generating Function (MGF) of $X$ to be,
+    $$
+    M_X(t) = E\left[ e^{X\cdot t}\right].
+    $$
+    Using this function, we can generate non-central moments, where the $n$th moment is given by,
+    $$
+    E\left[ X^n \right] = \left. M_X^{(n)} (t) \right|_{t=0}.
+    $$
+    A key feature of the MGF is that there is always a unique MGF for every PDF. This fact is integral later in the course!
+\end{frame}
+
+\begin{frame}{Moment Generating Functions (cont.)}
+    Why does that work?
+    \newline\newline
+    First, consider the first derivative of our MGF,
+    \begin{align*}
+        M_{X}^{(1)}(t) &= \frac{\partial}{\partial t} E\left[e^{X\cdot t}\right] \\
+        &= E\left[ \frac{\partial}{\partial t} e^{X\cdot t} \right] \\
+        &= E\left[ X e^{Xt} \right].
+    \end{align*}
+    Now, if we substitute $t=0,$ we get,
+    $$ \left. M_{X}^{(1)}(t) \right|_{t=0} = E\left[X e^{X\cdot 0} \right] = E[X]. $$
+\end{frame}
+
+\begin{frame}{Moment Generating Functions (cont.)}
+    Now, as we have that,
+    $$
+    \frac{\partial^n}{\partial t^n} e^{Xt} = X^n e^{Xt},
+    $$
+    it follows that we can extend the case for $n=1$ to any $n$ to generate the $n$th moment of $X,$ that is,
+    $$E\left[ X^n \right] = \left. M_X^{(n)} (t) \right|_{t=0}.$$
+    As an exercise, prove the above by induction!
+\end{frame}
+
+\begin{frame}{Application of MGF's}
+    Oftentimes, we will find the MGF of a random variable by showing it shares an MGF with a known distribution (see Orange Book for these).
+    \newline\newline
+    Otherwise, we derive the MGF of a random variable by using the defintion $M_X(t) = E\left[e^{Xt}\right].$
+\end{frame}
+
+\subsection{Finding Moments with MGF Example}
+
+\begin{frame}{Finding Moments with MGF}
+    \textbf{Q.} Consider the continuous random variable $X,$ which has the pdf,
+    $$
+    f_X(x) = \frac{1}{2} e^{-\frac{1}{2}x}, x\ge 0.
+    $$
+    By first finding the MGF of $X,$ find $E[X^3].$ (Do not use Orange Book for this exercise).
+\end{frame}
+
+\begin{frame}{Finding Moments with MGF (soln.)}
+    \textbf{Ans.} First, we find the MGF of $X,$
+    \begin{align*}
+        M_X(t) &= E\left[ e^{X t} \right] \\
+        &= \int_{0}^{\infty} e^{xt} \frac{1}{2} e^{-\frac{1}{2}x} dx\\
+        &= \frac{1}{2} \int_{0}^{\infty} e^{-x\left(\frac{1}{2}-t\right)} dx \\
+        &= \frac{1}{2} \left(\frac{1}{2}-t\right)^{-1} \left[ -e^{-x} \right]_{0}^{\infty} \\
+        &= \frac{1}{2} \left(\frac{1}{2}-t\right)^{-1}.
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Finding Moments with MGF (soln.) (cont.)}
+    Now, to find our third non-central moment, we derive our MGF three times,
+    \begin{align*}
+        E\left[X^3\right] &= M_X^{(3)} (0) \\
+        &= \left. 3 \left(\frac{1}{2}-t\right)^{-4} \right|_{t=0} \\
+        &= 48.
+    \end{align*}
+    Thus, we have found that $E\left[X^3\right] = 48.$
+\end{frame}
+
+\end{document}
