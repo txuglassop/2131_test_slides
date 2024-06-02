@@ -28,9 +28,9 @@
 \subsection{Definition and Visualisation}
 
 \begin{frame}{Definition}
-    Consider a sequence of two events, $A$ and $B,$ where the probability of $A$ is dependent on $B$ and $B$ is independent of $A$ ($B$ may occur first for example).
+    Consider two events $A$ and $B$, where $B$ is a partition of of the sample space $\Omega$\footnote{In essence, LOTP is usable if the scenario can be written as a tree diagram where all possible branches are present and probabilities sum to $1$.}.
     \newline\newline
-    Denote each possible outcome of $B$ as $B_i, i \in \{ 1,2,\dots, n\}$ then, the Law of Total Probability (LOTP) states, for a discrete case\footnote{There are conditions to consider, particularly all $B_i$ must be mutually disjointed, but in essence, LOTP is usable if the scenario can be written as a tree diagram.},
+    Denote each possible outcome of $B$ as $B_i, i \in \{ 1,2,\dots, n\}$ then, the Law of Total Probability (LOTP) states, for a discrete case,
     $$
     P(A) = \sum_{i=1}^{n} P(A\cap B_i) = \sum_{i=1}^n P(A | B_i) \cdot P(B_i).
     $$
@@ -68,7 +68,7 @@
 \subsection{Definition and Derivation}
 
 \begin{frame}{Definition}
-    Similar to LOTP, consider a sequence of events $B$ and $A,$ where $B$ is independent of $A$ but $A$ is dependent on $B.$ We can denote each different outcome of $B$ as $B_i, i \in \{1,2,\dots,n \}$ and a specific event of interest $B_j, j \subset i.$ 
+    Similar to LOTP, Consider two events $A$ and $B$, where $B$ is a partition of of the sample space $\Omega.$ We can denote each different outcome of $B$ as $B_i, i \in \{1,2,\dots,n \}$ and a specific event of interest $B_j, j \subset i.$ 
     \newline \newline
     Then, Bayes' Theorem states\footnote{Like LOTP, similar conditions need to be met for Bayes' to be applicable, but generally we can use it if we can represent our situation as a tree diagram.},
     $$
